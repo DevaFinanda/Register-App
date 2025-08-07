@@ -2,5 +2,5 @@ projectKey=register-app
 serverUrl=http://localhost:9000
 serverVersion=25.6.0.109173
 dashboardUrl=http://localhost:9000/dashboard?id=register-app
-ceTaskId=781d3ff9-8346-4250-a702-d2415740fd6f
-ceTaskUrl=http://localhost:9000/api/ce/task?id=781d3ff9-8346-4250-a702-d2415740fd6f
+ceTaskId=29345dd9-4365-4bf4-92ec-d0613834c8d5
+ceTaskUrl=http://localhost:9000/api/ce/task?id=29345dd9-4365-4bf4-92ec-d0613834c8d5

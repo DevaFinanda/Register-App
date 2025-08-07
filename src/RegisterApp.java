@@ -1,8 +1,5 @@
 package com.registerapp;
 
-import java.util.logging.Logger;
-import java.io.PrintStream;
-
 /**
  * This app computes the change due and mimics the function of a cash register
  * it reduces the coin usage to the minimun when the user enters the cost of an
@@ -10,12 +7,6 @@ import java.io.PrintStream;
  **/
 
  public class RegisterApp {
-    // Logger instance for internal logging
-    private static final Logger LOGGER = Logger.getLogger(RegisterApp.class.getName());
-    
-    // Display handler for user output (can be redirected for testing)
-    private final PrintStream displayOutput;
-    
     // variables
     private double amountDue; // This is the total cost of the purchases
     private double amountTendered; // This is the amount paid
@@ -34,30 +25,13 @@ import java.io.PrintStream;
      */
 
     public RegisterApp(double totalDue, double amountReceived) {
-        this(totalDue, amountReceived, System.out);
-    }
-    
-    /**
-     * Constructor with custom output stream
-     * Constructs a register app object with specified output stream
-     * 
-     * @param totalDue       is the amount of the purchase
-     * @param amountReceived is the received amount tendered paid
-     * @param output         the output stream for display
-     */
-    public RegisterApp(double totalDue, double amountReceived, PrintStream output) {
-        this.displayOutput = output;
-        
         // initialized instance variables
         amountDue = totalDue;
         amountTendered = amountReceived;
 
-        // Log the transaction details
-        LOGGER.info(String.format("New transaction - Amount Due: $%.2f, Amount Received: $%.2f", amountDue, amountTendered));
-        
-        // Display to user
-        displayOutput.printf("%nAmount Due: $%.2f%n", amountDue);
-        displayOutput.printf("Amount Received: $%.2f%n", amountTendered);
+        // The other instance variables are automatically initialized to zero
+        System.out.printf("%nAmount Due: $%.2f%n", amountDue);
+        System.out.printf("Amount Received: $%.2f%n", amountTendered);
     }
 
     /**
@@ -70,14 +44,11 @@ import java.io.PrintStream;
 
         // If the amount given is the exact amount of the bill, then there's no change
         if (amountDue == amountTendered) {
-            LOGGER.info("Transaction: Exact change provided");
-            displayOutput.printf("%n This is exact change! Thank You and come back soon!%n");
+            System.out.printf("%n This is exact change! Thank You and come back soon!%n");
         }
         // If the amount due is greater than the amount paid, then you owe money
         else if (amountDue > amountTendered) {
-            double shortage = amountDue - amountTendered;
-            LOGGER.warning(String.format("Transaction: Insufficient payment - shortage: $%.2f", shortage));
-            displayOutput.printf("%nYou are short %.2f%n", shortage);
+            System.out.printf("%nYou are short %.2f%n", amountDue - amountTendered);
         }
         // else if the amount amount due is less than the amount paid, then change is
         // due
@@ -114,31 +85,26 @@ import java.io.PrintStream;
     // This is a mutator or void method
     // This void method displays the change due to the customer
     private void changeEngine() {
-        // Log the change calculation details
-        LOGGER.info(String.format("Change calculation - Dollars: %d, Quarters: %d, Dimes: %d, Nickels: %d, Pennies: %d", 
-                                 dollarsDue, quartersDue, dimesDue, nickelsDue, penniesDue));
-        
-        // Display to user
-        displayOutput.printf("%n Your Change Due:%n");
+        System.out.printf("%n Your Change Due:%n");
         if (dollarsDue != 0) {
-            displayOutput.printf("\t%d Dollar(s)%n", dollarsDue);
+            System.out.printf("\t%d Dollar(s)%n", dollarsDue);
         }
         if (quartersDue != 0) {
-            displayOutput.printf("\t%d Quarter(s)%n", quartersDue);
+            System.out.printf("\t%d Quarter(s)%n", quartersDue);
         }
         if (dimesDue != 0) {
-            displayOutput.printf("\t%d Dime(s)%n", dimesDue);
+            System.out.printf("\t%d Dime(s)%n", dimesDue);
         }
         if (nickelsDue != 0) {
-            displayOutput.printf("\t%d Nickel(s)%n", nickelsDue);
+            System.out.printf("\t%d Nickel(s)%n", nickelsDue);
         }
         if (penniesDue != 0) {
             if (penniesDue == 1) {
-                displayOutput.printf("\t%d Penny%n", penniesDue);
+                System.out.printf("\t%d Penny%n", penniesDue);
             } else {
-                displayOutput.printf("\t%d pennies%n", penniesDue);
+                System.out.printf("\t%d pennies%n", penniesDue);
             }
         }
-        displayOutput.printf("%nThank You!%n");
+        System.out.printf("%nThank You!%n");
     }
 }
