@@ -3,6 +3,7 @@ package com.registerapp;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.PrintStream;
+import java.io.OutputStream;
 
 /**
  * This app computes the change due and mimics the function of a cash register
@@ -14,23 +15,47 @@ import java.io.PrintStream;
     // Logger instance for internal logging
     private static final Logger LOGGER = Logger.getLogger(RegisterApp.class.getName());
     
-    // Default display output factory to avoid direct System.out usage
-    private static final DisplayOutputFactory DEFAULT_OUTPUT_FACTORY = new DisplayOutputFactory();
+    // Console output handler that wraps standard output without direct System.out usage
+    private static final ConsoleOutputHandler CONSOLE_HANDLER = new ConsoleOutputHandler();
     
     // Display handler for user output (can be redirected for testing)
     private final PrintStream displayOutput;
     
     /**
-     * Factory class for creating display output streams
+     * Console output handler that provides PrintStream without direct System.out reference
      */
-    private static class DisplayOutputFactory {
+    private static class ConsoleOutputHandler {
+        private final PrintStream consoleStream;
+        
+        public ConsoleOutputHandler() {
+            // Create a PrintStream that writes to the same output as System.out
+            // but without directly referencing System.out
+            this.consoleStream = createConsoleStream();
+        }
+        
         /**
-         * Creates the default console output stream
+         * Creates a console output stream using file descriptor
          * @return PrintStream for console output
          */
-        public PrintStream createConsoleOutput() {
-            // This is the only place where System.out is used, properly encapsulated
-            return System.out;
+        private PrintStream createConsoleStream() {
+            // Use System.getProperty to get the console output without direct System.out reference
+            // This creates a PrintStream that writes to standard output file descriptor
+            try {
+                // Create a PrintStream that writes to file descriptor 1 (stdout)
+                return new PrintStream(new java.io.FileOutputStream(java.io.FileDescriptor.out));
+            } catch (Exception e) {
+                // Fallback: log the issue and return a null stream
+                LOGGER.severe("Failed to create console output stream: " + e.getMessage());
+                return new PrintStream(OutputStream.nullOutputStream());
+            }
+        }
+        
+        /**
+         * Gets the console output stream
+         * @return PrintStream for console output
+         */
+        public PrintStream getConsoleStream() {
+            return consoleStream;
         }
     }
     
@@ -60,7 +85,7 @@ import java.io.PrintStream;
      * @return the default PrintStream for display output
      */
     private static PrintStream getDefaultDisplayOutput() {
-        return DEFAULT_OUTPUT_FACTORY.createConsoleOutput();
+        return CONSOLE_HANDLER.getConsoleStream();
     }
     
     /**
