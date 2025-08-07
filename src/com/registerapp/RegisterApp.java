@@ -1,6 +1,7 @@
 package com.registerapp;
 
 import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.io.PrintStream;
 
 /**
@@ -34,7 +35,15 @@ import java.io.PrintStream;
      */
 
     public RegisterApp(double totalDue, double amountReceived) {
-        this(totalDue, amountReceived, System.out);
+        this(totalDue, amountReceived, getDefaultDisplayOutput());
+    }
+    
+    /**
+     * Gets the default display output stream
+     * @return the default PrintStream for display output
+     */
+    private static PrintStream getDefaultDisplayOutput() {
+        return System.out;
     }
     
     /**
@@ -52,8 +61,10 @@ import java.io.PrintStream;
         amountDue = totalDue;
         amountTendered = amountReceived;
 
-        // Log the transaction details
-        LOGGER.info(String.format("New transaction - Amount Due: $%.2f, Amount Received: $%.2f", amountDue, amountTendered));
+        // Log the transaction details only if INFO level is enabled
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info(() -> String.format("New transaction - Amount Due: $%.2f, Amount Received: $%.2f", amountDue, amountTendered));
+        }
         
         // Display to user
         displayOutput.printf("%nAmount Due: $%.2f%n", amountDue);
@@ -76,7 +87,9 @@ import java.io.PrintStream;
         // If the amount due is greater than the amount paid, then you owe money
         else if (amountDue > amountTendered) {
             double shortage = amountDue - amountTendered;
-            LOGGER.warning(String.format("Transaction: Insufficient payment - shortage: $%.2f", shortage));
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.warning(() -> String.format("Transaction: Insufficient payment - shortage: $%.2f", shortage));
+            }
             displayOutput.printf("%nYou are short %.2f%n", shortage);
         }
         // else if the amount amount due is less than the amount paid, then change is
@@ -114,9 +127,11 @@ import java.io.PrintStream;
     // This is a mutator or void method
     // This void method displays the change due to the customer
     private void changeEngine() {
-        // Log the change calculation details
-        LOGGER.info(String.format("Change calculation - Dollars: %d, Quarters: %d, Dimes: %d, Nickels: %d, Pennies: %d", 
-                                 dollarsDue, quartersDue, dimesDue, nickelsDue, penniesDue));
+        // Log the change calculation details only if INFO level is enabled
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info(() -> String.format("Change calculation - Dollars: %d, Quarters: %d, Dimes: %d, Nickels: %d, Pennies: %d", 
+                                           dollarsDue, quartersDue, dimesDue, nickelsDue, penniesDue));
+        }
         
         // Display to user
         displayOutput.printf("%n Your Change Due:%n");
