@@ -1,3 +1,5 @@
+package com.registerapp;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -9,10 +11,9 @@ public class RegisterAppTester {
         // variables
         double amountDue; // Total cost of purchase
         double amountPaid; // Amount Paid for purchases
-        String input; // User input
 
         // Dialog Box - end-user inputs the amount due for purchase
-        input = JOptionPane.showInputDialog("What is the total purchase?");
+        String input = JOptionPane.showInputDialog("What is the total purchase?");
 
         // end-user enters amount due
         amountDue = Double.parseDouble(input);

@@ -1,3 +1,5 @@
+package com.registerapp;
+
 /**
  * This app computes the change due and mimics the function of a cash register
  * it reduces the coin usage to the minimun when the user enters the cost of an
@@ -28,8 +30,8 @@
         amountTendered = amountReceived;
 
         // The other instance variables are automatically initialized to zero
-        System.out.printf("%nAmount Due: $%.2f", amountDue);
-        System.out.printf("%nAmount Received: $%.2f", amountTendered);
+        System.out.printf("%nAmount Due: $%.2f%n", amountDue);
+        System.out.printf("Amount Received: $%.2f%n", amountTendered);
     }
 
     /**
@@ -42,11 +44,11 @@
 
         // If the amount given is the exact amount of the bill, then there's no change
         if (amountDue == amountTendered) {
-            System.out.println("\n This is exact change! Thank You and come back soon!");
+            System.out.printf("%n This is exact change! Thank You and come back soon!%n");
         }
         // If the amount due is greater than the amount paid, then you owe money
         else if (amountDue > amountTendered) {
-            System.out.printf("\nYou are short %.2f", amountDue - amountTendered);
+            System.out.printf("%nYou are short %.2f%n", amountDue - amountTendered);
         }
         // else if the amount amount due is less than the amount paid, then change is
         // due
@@ -68,8 +70,8 @@
             changeDue = changeDue % 10; // modulus operation
 
             // nickel due computation - one nickel equals five pennies
-            nickelsDue = changeDue / 10; // integer divison
-            changeDue = changeDue % 10; // modulus operation
+            nickelsDue = changeDue / 5; // integer divison
+            changeDue = changeDue % 5; // modulus operation
 
             // pennies due computation - one penny equals one penny
             // The change due here is less than or equals to four cents
@@ -83,27 +85,26 @@
     // This is a mutator or void method
     // This void method displays the change due to the customer
     private void changeEngine() {
-        System.out.println("\n Your Change Due:");
+        System.out.printf("%n Your Change Due:%n");
         if (dollarsDue != 0) {
-            System.out.println("\t" + dollarsDue + " Dollar(s)");
+            System.out.printf("\t%d Dollar(s)%n", dollarsDue);
         }
         if (quartersDue != 0) {
-            System.out.println("\t" + quartersDue + " Quarter(s)");
+            System.out.printf("\t%d Quarter(s)%n", quartersDue);
         }
         if (dimesDue != 0) {
-            System.out.println("\t" + dimesDue + " Dime(s)");
+            System.out.printf("\t%d Dime(s)%n", dimesDue);
         }
         if (nickelsDue != 0) {
-            System.out.println("\t" + nickelsDue + " Nickel(s)");
+            System.out.printf("\t%d Nickel(s)%n", nickelsDue);
         }
         if (penniesDue != 0) {
-            System.out.println("\t" + penniesDue);
             if (penniesDue == 1) {
-                System.out.println(" Penny");
+                System.out.printf("\t%d Penny%n", penniesDue);
             } else {
-                System.out.println(" pennies");
+                System.out.printf("\t%d pennies%n", penniesDue);
             }
         }
-        System.out.println("\nThank You!");
+        System.out.printf("%nThank You!%n");
     }
 }
