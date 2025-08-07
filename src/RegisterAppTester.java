@@ -20,6 +20,9 @@ public class RegisterAppTester {
         // Dialog Box - end-user enters amount paid for purchase
         input = JOptionPane.showInputDialog("How much did you pay?");
 
+        // end-user enters amount paid
+        amountPaid = Double.parseDouble(input);
+
         // Creating a RegisterApp object
         RegisterApp myRegisterApp = new RegisterApp(amountDue, amountPaid);
 
