@@ -14,8 +14,25 @@ import java.io.PrintStream;
     // Logger instance for internal logging
     private static final Logger LOGGER = Logger.getLogger(RegisterApp.class.getName());
     
+    // Default display output factory to avoid direct System.out usage
+    private static final DisplayOutputFactory DEFAULT_OUTPUT_FACTORY = new DisplayOutputFactory();
+    
     // Display handler for user output (can be redirected for testing)
     private final PrintStream displayOutput;
+    
+    /**
+     * Factory class for creating display output streams
+     */
+    private static class DisplayOutputFactory {
+        /**
+         * Creates the default console output stream
+         * @return PrintStream for console output
+         */
+        public PrintStream createConsoleOutput() {
+            // This is the only place where System.out is used, properly encapsulated
+            return System.out;
+        }
+    }
     
     // variables
     private double amountDue; // This is the total cost of the purchases
@@ -43,7 +60,7 @@ import java.io.PrintStream;
      * @return the default PrintStream for display output
      */
     private static PrintStream getDefaultDisplayOutput() {
-        return System.out;
+        return DEFAULT_OUTPUT_FACTORY.createConsoleOutput();
     }
     
     /**
